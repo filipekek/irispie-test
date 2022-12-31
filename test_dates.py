@@ -2,7 +2,7 @@
 import sys
 sys.path.append("/home/filip")
 
-from modiphy import yy, qq, hh, mm, ii, dd
+from modiphy import *
 
 import random
 
@@ -12,7 +12,7 @@ def test_yy():
         plus = random.randint(1, 100)
         minus = random.randint(1, 100)
         pc_yy = int(yy(year))
-        assert year+plus == pc_yy+plus, year-minus == pc_yy-minus
+        assert year+plus == pc_yy+plus and year-minus == pc_yy-minus
 
 def test_hh():
     for i in range(1000):
@@ -22,7 +22,7 @@ def test_hh():
         pc_hh = int(hh(year, half))
         plus = random.randint(1, 100)
         minus = random.randint(1, 100)
-        assert hh_dc+plus == pc_hh+plus, hh_dc-minus == pc_hh-minus
+        assert hh_dc+plus == pc_hh+plus and hh_dc-minus == pc_hh-minus
 
 def test_qq():
     for i in range(1000):
@@ -32,7 +32,7 @@ def test_qq():
         pc_qq = int(qq(year, quarter))
         plus = random.randint(1, 100)
         minus = random.randint(1, 100)
-        assert qq_dc+plus == pc_qq+plus, qq_dc-minus == pc_qq-minus
+        assert qq_dc+plus == pc_qq+plus and qq_dc-minus == pc_qq-minus
 
 def test_mm():
     for i in range(1000):
@@ -42,7 +42,7 @@ def test_mm():
         pc_mm = int(mm(year, month))
         plus = random.randint(1, 100)
         minus = random.randint(1, 100)
-        assert mm_dc+plus == pc_mm+plus, mm_dc-minus == pc_mm-minus
+        assert mm_dc+plus == pc_mm+plus and mm_dc-minus == pc_mm-minus
 
 def test_ii():
     for i in range(1000):
@@ -50,7 +50,7 @@ def test_ii():
         pc_ii = int(ii(ii_dc))
         plus = random.randint(1, 100)
         minus = random.randint(1, 100)
-        assert ii_dc+plus == pc_ii+plus, ii_dc-minus == pc_ii-minus
+        assert ii_dc+plus == pc_ii+plus and ii_dc-minus == pc_ii-minus
 
 #def test_all(max):
 #    if max == None:
@@ -72,3 +72,9 @@ def test_ii():
 #            minus = random.randint(1, 100)
 #            assert qq_dc+plus == pc_qq+plus, qq_dc-minus == pc_qq-minus
 
+if __name__ == "__main__":
+    test_yy()
+    test_hh()
+    test_qq()
+    test_mm()
+    test_ii()
