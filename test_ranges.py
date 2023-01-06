@@ -29,8 +29,14 @@ def assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, pc_first_date, pc
     assert l_length == len(l_bw)
     for j in range(l_length):
         assert l[j]==pc_first_date+j
-    for k in range(l_length):
-        assert l_bw[k]==pc_last_date-k
+        assert l_bw[j]==pc_last_date-j
+
+def assertion_diff(r, r_bw, l, l_bw, l_length, pc_first_date, pc_last_date, mult):
+    assert l_length == len(l)
+    assert l_length == len(l_bw)
+    for j in range(l_length):
+        assert l[j]==pc_first_date+j*mult
+        assert l_bw[j]==pc_last_date-j*mult
 
 def test_yy_range():
     for i in range(1000):
@@ -96,7 +102,7 @@ def test_mm_range():
 
         assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, pc_first_date, pc_last_date)
 
-def test_dd_ranges(year_1, month_1, day_1, year_2, month_2, day_2):
+def test_dd_range(year_1, month_1, day_1, year_2, month_2, day_2):
     """
     Input: first year, first_month, first day, second year, second_month, second day
     Reccomended input (to check most):
@@ -113,8 +119,28 @@ def test_dd_ranges(year_1, month_1, day_1, year_2, month_2, day_2):
     r_bw_other = first_date << last_date
     l = list(r)
     l_bw = list(r_bw)
-    l_length = (first_date-last_date)+1
+    l_length = (last_date-first_date)+1
 
-    from IPython import embed;embed()
     assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, first_date, last_date)
+    print(l)
 
+def test_different():
+    for i in range(1000):
+        first_date, last_date = create_dates()
+
+        pc_first_date = yy(first_date)
+        pc_last_date = yy(last_date)
+        r_by2 = Ranger(pc_first_date, pc_last_date, 2)
+        r_bw_by2 = Ranger(pc_last_date, pc_first_date, -2)
+        r_by3 = Ranger(pc_first_date, pc_last_date, 3)
+        r_bw_by3 = Ranger(pc_last_date, pc_first_date, -3)
+
+        l_2 = list(r_by2)
+        l_3 = list(r_by3)
+        l_bw_2 = list(r_bw_by2)
+        l_bw_3 = list(r_bw_by3)
+        l_length_2 = int(((pc_last_date-pc_first_date)/2)+1)
+        l_length_3 = int(((pc_last_date-pc_first_date)/3)+1)
+        print(first_date, last_date, l_length_3)
+        assertion_diff(r_by2, r_bw_by2, l_2, l_bw_2, l_length_2, pc_first_date, pc_last_date, 2)
+        assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_2, pc_first_date, pc_last_date, 3)
