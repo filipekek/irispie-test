@@ -16,6 +16,15 @@ def random_pick(number):
     s = random.randint(1,number)
     return r, s
 
+def create_diff_lists(r2, r3, r2_bw, r3_bw, pc_first_date, pc_last_date):
+    l_2 = list(r2)
+    l_3 = list(r3)
+    l_bw_2 = list(r2_bw)
+    l_bw_3 = list(r3_bw)
+    l_length_2 = int(((pc_last_date-pc_first_date)/2)+1)
+    l_length_3 = int(((pc_last_date-pc_first_date)/3)+1)
+    return l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3
+
 def create_lists(r, r_bw, pc_first_date, pc_last_date):
     l = list(r)
     l_bw = list(r_bw)
@@ -124,7 +133,7 @@ def test_dd_range(year_1, month_1, day_1, year_2, month_2, day_2):
     assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, first_date, last_date)
     print(l)
 
-def test_different():
+def test_by_more_yy():
     for i in range(1000):
         first_date, last_date = create_dates()
 
@@ -135,12 +144,25 @@ def test_different():
         r_by3 = Ranger(pc_first_date, pc_last_date, 3)
         r_bw_by3 = Ranger(pc_last_date, pc_first_date, -3)
 
-        l_2 = list(r_by2)
-        l_3 = list(r_by3)
-        l_bw_2 = list(r_bw_by2)
-        l_bw_3 = list(r_bw_by3)
-        l_length_2 = int(((pc_last_date-pc_first_date)/2)+1)
-        l_length_3 = int(((pc_last_date-pc_first_date)/3)+1)
-        print(first_date, last_date, l_length_3)
+        l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3 = create_diff_lists(r_by2, r_by3, r_bw_by2, r_bw_by3, pc_first_date, pc_last_date)
+
         assertion_diff(r_by2, r_bw_by2, l_2, l_bw_2, l_length_2, pc_first_date, pc_last_date, 2)
-        assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_2, pc_first_date, pc_last_date, 3)
+        assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_3, pc_first_date, pc_last_date, 3)
+
+def test_by_more(function, max):
+    for i in range(1000):
+        first_year, last_year = create_dates()
+        first_date, last_date = random_pick(max)
+
+        pc_first_date = function(first_year, first_date)
+        pc_last_date = function(last_year, last_date)
+        r_by2 = Ranger(pc_first_date, pc_last_date, 2)
+        r_by3 = Ranger(pc_first_date, pc_last_date, 3)
+        r_bw_by2 = Ranger(pc_last_date, pc_first_date, -2)
+        r_bw_by3 = Ranger(pc_last_date, pc_first_date, -3)
+
+        l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3 = create_diff_lists(r_by2, r_by3, r_bw_by2, r_bw_by3, pc_first_date, pc_last_date)
+
+        assertion_diff(r_by2, r_bw_by2, l_2, l_bw_2, l_length_2, pc_first_date, pc_last_date, 2)
+        assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_3, pc_first_date, pc_last_date, 3)
+
