@@ -7,7 +7,7 @@ from modiphy import *
 import random
 
 def create_dates():
-    first_date = random.randint(-1000, 1000)
+    first_date = random.randint(1000, 1000)
     last_date = random.randint(first_date+1, first_date+1000)
     return first_date, last_date
 
@@ -150,6 +150,9 @@ def test_by_more_yy():
         assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_3, pc_first_date, pc_last_date, 3)
 
 def test_by_more(function, max):
+    """
+    inputs - function (function you want to test dd, mm...), max (number of the functions thingamagig)
+    """
     for i in range(1000):
         first_year, last_year = create_dates()
         first_date, last_date = random_pick(max)
@@ -165,4 +168,83 @@ def test_by_more(function, max):
 
         assertion_diff(r_by2, r_bw_by2, l_2, l_bw_2, l_length_2, pc_first_date, pc_last_date, 2)
         assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_3, pc_first_date, pc_last_date, 3)
+
+def test_by_more_dd():
+    for i in range(1000):
+        first_year, last_year = create_dates()
+        first_month, last_month = random_pick(12)
+        first_day, last_day = random_pick(28)
+
+        pc_first_date = dd(first_year, first_month, first_day)
+        pc_last_date = dd(last_year, last_month, last_day)
+        r_by2 = Ranger(pc_first_date, pc_last_date, 2)
+        r_bw_by2 = Ranger(pc_first_date, pc_last_date, -2)
+        r_by3 = Ranger(pc_first_date, pc_last_date, 3)
+        r_bw_by3 = Ranger(pc_first_date, pc_last_date, -3)
+
+        l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3 = create_diff_lists(r_by2, r_by3, r_bw_by2, r_bw_by3, pc_first_date, pc_last_date)
+
+        assertion_diff(r_by2, r_bw_by2, l_2, l_bw_2, l_length_2, pc_first_date, pc_last_date, 2)
+        assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_3, pc_first_date, pc_last_date, 3)
+
+def test_first_over_last(function, max):
+    """
+    inputs - the same as test_by_more()
+    """
+    for i in range(1000):
+        last_year, first_year = create_dates()
+        if max == 0:
+            first_date = 0
+            last_date = 0
+        elif max > 0:
+            first_date, last_date = random_pick(max)
+
+        pc_first_date = function(first_year, first_date)
+        pc_last_date = function(last_year, last_date)
+        r = Ranger(pc_first_date, pc_last_date, 1)
+        r_bw = Ranger(pc_last_date, pc_first_date, -1)
+        r_other = pc_first_date >> pc_last_date
+        r_bw_other = pc_first_date << pc_last_date
+        r_by2 = Ranger(pc_first_date, pc_last_date, 2)
+        r_bw_by2 = Ranger(pc_last_date, pc_first_date, -2)
+        r_by3 = Ranger(pc_first_date, pc_last_date, 3)
+        r_bw_by3 = Ranger(pc_last_date, pc_first_date, -3)
+
+        l, l_bw, l_length = create_lists(r, r_bw, pc_first_date, pc_last_date)
+        l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3 = create_diff_lists(r_by2, r_by3, r_bw_by2, r_bw_by3, pc_first_date, pc_last_date)
+
+        assert l == []
+        assert l_bw == []
+        assert l_2 == []
+        assert l_bw_2 == []
+        assert l_3 == []
+        assert l_bw_3 == []
+        assert r == r_other
+        assert r_bw == r_bw_other
+
+def test_same_dates(function):
+    year = random.randint(1000,1000)
+    date = 1
+
+    pc_date = function(year, date)
+    r = Ranger(pc_date, pc_date, 1)
+    r_bw = Ranger(pc_date, pc_date, -1)
+    r_other = pc_date >> pc_date
+    r_bw_other = pc_date << pc_date
+    r_by2 = Ranger(pc_date, pc_date, 2)
+    r_bw_by2 = Ranger(pc_date, pc_date, -2)
+    r_by3 = Ranger(pc_date, pc_date, 3)
+    r_bw_by3 = Ranger(pc_date, pc_date, -3)
+
+    l, l_bw, l_length = create_lists(r, r_bw, pc_date, pc_date)
+    l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3 = create_diff_lists(r_by2, r_by3, r_bw_by2, r_bw_by3, pc_date, pc_date)
+
+    assert l == [pc_date]
+    assert l_bw == [pc_date]
+    assert l_2 == [pc_date]
+    assert l_bw_2 == [pc_date]
+    assert l_3 == [pc_date]
+    assert l_bw_3 == [pc_date]
+    assert r == r_other
+    assert r_bw == r_bw_other
 
