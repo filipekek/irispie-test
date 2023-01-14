@@ -1,20 +1,23 @@
 
 import sys
-sys.path.append("/home/filip")
+sys.path.append("..")
 
 from modiphy import *
 
 import random
+
 
 def create_dates():
     first_date = random.randint(1000, 1000)
     last_date = random.randint(first_date+1, first_date+1000)
     return first_date, last_date
 
+
 def random_pick(number):
     r = random.randint(1,number)
     s = random.randint(1,number)
     return r, s
+
 
 def create_diff_lists(r2, r3, r2_bw, r3_bw, pc_first_date, pc_last_date):
     l_2 = list(r2)
@@ -25,11 +28,13 @@ def create_diff_lists(r2, r3, r2_bw, r3_bw, pc_first_date, pc_last_date):
     l_length_3 = int(((pc_last_date-pc_first_date)/3)+1)
     return l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3
 
+
 def create_lists(r, r_bw, pc_first_date, pc_last_date):
     l = list(r)
     l_bw = list(r_bw)
     l_length = (pc_last_date-pc_first_date)+1
     return l, l_bw, l_length
+
 
 def assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, pc_first_date, pc_last_date):
     assert r == r_other
@@ -40,6 +45,7 @@ def assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, pc_first_date, pc
         assert l[j]==pc_first_date+j
         assert l_bw[j]==pc_last_date-j
 
+
 def assertion_diff(r, r_bw, l, l_bw, l_length, pc_first_date, pc_last_date, mult):
     assert l_length == len(l)
     assert l_length == len(l_bw)
@@ -47,8 +53,9 @@ def assertion_diff(r, r_bw, l, l_bw, l_length, pc_first_date, pc_last_date, mult
         assert l[j]==pc_first_date+j*mult
         assert l_bw[j]==pc_last_date-j*mult
 
-def test_yy_range():
-    for i in range(1000):
+
+def test_yy_range(num_tests):
+    for i in range(num_tests):
         first_date, last_date = create_dates()
 
         pc_first_date = yy(first_date)
@@ -62,8 +69,9 @@ def test_yy_range():
 
         assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, pc_first_date, pc_last_date)
 
-def test_hh_range():
-    for i in range(1000):
+
+def test_hh_range(num_tests):
+    for i in range(num_tests):
         first_date, last_date = create_dates()
         first_half, last_half = random_pick(2)
 
@@ -79,8 +87,8 @@ def test_hh_range():
         assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, pc_first_date, pc_last_date)
 
 
-def test_qq_range():
-    for i in range(1000):
+def test_qq_range(num_tests):
+    for i in range(num_tests):
         first_date, last_date = create_dates()
         first_quarter, last_quarter = random_pick(4)
 
@@ -95,8 +103,9 @@ def test_qq_range():
 
         assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, pc_first_date, pc_last_date)
 
-def test_mm_range():
-    for i in range(1000):
+
+def test_mm_range(num_tests):
+    for i in range(num_tests):
         first_date, last_date = create_dates()
         first_month, last_month = random_pick(4)
 
@@ -111,10 +120,11 @@ def test_mm_range():
 
         assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, pc_first_date, pc_last_date)
 
-def test_dd_range(year_1, month_1, day_1, year_2, month_2, day_2):
+
+def test_dd_range(num_tests, year_1, month_1, day_1, year_2, month_2, day_2):
     """
     Input: first year, first_month, first day, second year, second_month, second day
-    Reccomended input (to check most):
+    Recommended input (to check most):
     1) same year, different days
     2) different days and years (non leap)
     3) same year (leap), different days
@@ -131,10 +141,11 @@ def test_dd_range(year_1, month_1, day_1, year_2, month_2, day_2):
     l_length = (last_date-first_date)+1
 
     assertion(r, r_bw, l, l_bw, l_length, r_other, r_bw_other, first_date, last_date)
-    print(l)
+    # print(l)
 
-def test_by_more_yy():
-    for i in range(1000):
+
+def test_by_more_yy(num_tests):
+    for i in range(num_tests):
         first_date, last_date = create_dates()
 
         pc_first_date = yy(first_date)
@@ -144,16 +155,18 @@ def test_by_more_yy():
         r_by3 = Ranger(pc_first_date, pc_last_date, 3)
         r_bw_by3 = Ranger(pc_last_date, pc_first_date, -3)
 
+
         l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3 = create_diff_lists(r_by2, r_by3, r_bw_by2, r_bw_by3, pc_first_date, pc_last_date)
 
         assertion_diff(r_by2, r_bw_by2, l_2, l_bw_2, l_length_2, pc_first_date, pc_last_date, 2)
         assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_3, pc_first_date, pc_last_date, 3)
 
-def test_by_more(function, max):
+
+def test_by_more(num_tests, function, max):
     """
     inputs - function (function you want to test dd, mm...), max (number of the functions thingamagig)
     """
-    for i in range(1000):
+    for i in range(num_tests):
         first_year, last_year = create_dates()
         first_date, last_date = random_pick(max)
 
@@ -169,8 +182,9 @@ def test_by_more(function, max):
         assertion_diff(r_by2, r_bw_by2, l_2, l_bw_2, l_length_2, pc_first_date, pc_last_date, 2)
         assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_3, pc_first_date, pc_last_date, 3)
 
-def test_by_more_dd():
-    for i in range(1000):
+
+def test_by_more_dd(num_tests):
+    for i in range(num_tests):
         first_year, last_year = create_dates()
         first_month, last_month = random_pick(12)
         first_day, last_day = random_pick(28)
@@ -178,20 +192,21 @@ def test_by_more_dd():
         pc_first_date = dd(first_year, first_month, first_day)
         pc_last_date = dd(last_year, last_month, last_day)
         r_by2 = Ranger(pc_first_date, pc_last_date, 2)
-        r_bw_by2 = Ranger(pc_first_date, pc_last_date, -2)
+        r_bw_by2 = Ranger(pc_last_date, pc_first_date, -2)
         r_by3 = Ranger(pc_first_date, pc_last_date, 3)
-        r_bw_by3 = Ranger(pc_first_date, pc_last_date, -3)
+        r_bw_by3 = Ranger(pc_last_date, pc_first_date, -3)
 
         l_2, l_3, l_bw_2, l_bw_3, l_length_2, l_length_3 = create_diff_lists(r_by2, r_by3, r_bw_by2, r_bw_by3, pc_first_date, pc_last_date)
 
         assertion_diff(r_by2, r_bw_by2, l_2, l_bw_2, l_length_2, pc_first_date, pc_last_date, 2)
         assertion_diff(r_by3, r_bw_by3, l_3, l_bw_3, l_length_3, pc_first_date, pc_last_date, 3)
 
-def test_first_over_last(function, max):
+
+def test_first_over_last(num_tests, function, max):
     """
     inputs - the same as test_by_more()
     """
-    for i in range(1000):
+    for i in range(num_tests):
         last_year, first_year = create_dates()
         if max == 0:
             first_date = 0
@@ -222,7 +237,8 @@ def test_first_over_last(function, max):
         assert r == r_other
         assert r_bw == r_bw_other
 
-def test_same_dates(function):
+
+def test_same_dates(num_tests, function):
     year = random.randint(1000,1000)
     date = 1
 
@@ -247,4 +263,25 @@ def test_same_dates(function):
     assert l_bw_3 == [pc_date]
     assert r == r_other
     assert r_bw == r_bw_other
+
+
+if __name__=="__main__":
+    num_tests = 100
+    test_yy_range(num_tests)
+    test_hh_range(num_tests)
+    test_qq_range(num_tests)
+    test_mm_range(num_tests)
+    test_dd_range(num_tests, 1998, 3, 16, 2004, 6, 12)
+    test_by_more_yy(num_tests)
+    test_by_more(num_tests, hh, 2)
+    test_by_more(num_tests, mm, 12)
+    test_by_more(num_tests, qq, 4)
+    test_by_more_dd(num_tests)
+    test_first_over_last(num_tests, yy, 0)
+    test_first_over_last(num_tests, hh, 2)
+    test_first_over_last(num_tests, qq, 4)
+    test_first_over_last(num_tests, mm, 12)
+    for i in [yy, hh, qq, mm]:
+            test_same_dates(num_tests, i)
+
 
