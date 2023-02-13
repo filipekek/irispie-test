@@ -1,7 +1,6 @@
 import sys
 sys.path.append('..')
 
-import modiphy.parsers.model as pm
 from modiphy.models.core import Model
 from modiphy.quantities import QuantityKind
 from modiphy.equations import EquationKind
@@ -38,10 +37,7 @@ source = r"""
 
 """
 
-s = pm.parse_from_string(source)
-s.seal()
-
-m = Model.from_source(s)
+m = Model.from_string(source)
 
 
 m._quantities

@@ -1,7 +1,6 @@
 import sys
 sys.path.append('..')
 
-import modiphy.parsers.model as pm
 from modiphy.models.core import Model
 from modiphy.quantities import QuantityKind
 from modiphy.equations import EquationKind
@@ -40,10 +39,7 @@ source1 = r"""
         x1 rho_x1 shk_x3
 """
 
-s1 = pm.parse_from_string(source1)
-s1.seal()
-
-m1 = Model.from_source(s1)
+m1 = Model.from_string(source1)
 
 
 source2 = r"""
@@ -79,10 +75,7 @@ source2 = r"""
         x3, x2
 """
 
-s2 = pm.parse_from_string(source2)
-s2.seal()
-
-m2 = Model.from_source(s2)
+m2 = Model.from_string(source2)
 
 
 #m._quantities
