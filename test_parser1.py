@@ -75,7 +75,7 @@ def test_quantities_kinds(m, q):
 
 def test_quantities_entry(m):
     x = _create_list(m, "entry")
-    manual_x = [1, 0, 2, 3]
+    manual_x = [0, 1, 2, 3]
     _assertion(x, manual_x)
 
 def test_dynamic_equations_human(m):
