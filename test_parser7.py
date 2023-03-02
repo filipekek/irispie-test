@@ -7,20 +7,20 @@ from modiphy.equations import EquationKind
 
 
 source = r"""
-    !for ?var = a, b, c !do
+    !for a, b, c !do
 
     !transition-shocks
-        "Shock ?var1" shk_?var1
-        shk_?var2,
+        "Shock ?1" shk_?1
+        shk_?2,
 
     !transition-variables
-        ?var
+        ?
 
     !parameters
-        rho_?var
+        rho_?
 
     !transition-equations
-        ?var = rho_?var * ?var{-1} + shk_?var2 - shk_?var1;
+        ? = rho_? * ?{-1} + shk_?2 - shk_?1;
 
 !end
 """

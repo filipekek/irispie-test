@@ -8,7 +8,6 @@ from modiphy.equations import EquationKind
 
 source = r"""
 
-
     !transition-shocks
         "Shock x1" shk_x1
         "Shock x2" shk_x2,
@@ -36,7 +35,7 @@ source = r"""
         m_shk_x1
 
     !measurement-equations
-        m_shk_x1 = mx1+3;
+        m_shk_x1 = mx1 + 3;
 """
 
 m = Model.from_string(source)
@@ -105,41 +104,41 @@ def test_quantities_entry(m):
 
 def test_dynamic_equations_human(m):
     x = _create_list(m, "human")
-    manual_x = ['x1 = rho_x1 * x1{-1} + (1 - rho_x1) * ss_x1 + shk_x1', 'x2 = shk_x1 * x2 + (3 + ss_x1)']
+    manual_x = ['x1 = rho_x1 * x1{-1} + (1 - rho_x1) * ss_x1 + shk_x1', 'x2 = shk_x1 * x2 + (3 + ss_x1)', 'm_shk_x1 = mx1 + 3']
     _assertion(x, manual_x)
 
 def test_dynamic_equations_descriptions(m):
     x = _create_list(m, "descript")
-    manual_x = ['Equation x1', 'Equation x2']
+    manual_x = ['Equation x1', 'Equation x2', '']
     _assertion(x, manual_x)
 
 def test_dynamic_equations_kinds(m, q):
     x = _create_list(m, "kind")
-    manual_x = [q.TRANSITION_EQUATION, q.TRANSITION_EQUATION]
+    manual_x = [q.TRANSITION_EQUATION, q.TRANSITION_EQUATION, q.MEASUREMENT_EQUATION]
     _assertion(x, manual_x)
 
 def test_dynamic_equations_entry(m):
     x = _create_list(m, "entry")
-    manual_x = [0, 1]
+    manual_x = [0, 1, 2]
     _assertion(x, manual_x)
 
 def test_steady_equations_human(m):
     x = _create_list(m, "human")
-    manual_x = ['x1 = 0', 'x2 = shk_x1 * x2 + (3 + ss_x1)']
+    manual_x = ['x1 = 0', 'x2 = shk_x1 * x2 + (3 + ss_x1)', 'm_shk_x1 = mx1 + 3']
     _assertion(x, manual_x)
 
 def test_steady_equations_descriptions(m):
     x = _create_list(m, "descript")
-    manual_x = ['Equation x1', 'Equation x2']
+    manual_x = ['Equation x1', 'Equation x2', '']
     _assertion(x, manual_x)
 
 def test_steady_equations_kinds(m, q):
     x = _create_list(m, "kind")
-    manual_x = [q.TRANSITION_EQUATION, q.TRANSITION_EQUATION]
+    manual_x = [q.TRANSITION_EQUATION, q.TRANSITION_EQUATION, q.MEASUREMENT_EQUATION]
     _assertion(x, manual_x)
 
 def test_steady_equations_entry(m):
     x = _create_list(m, "entry")
-    manual_x = [0, 1]
+    manual_x = [0, 1, 2]
     _assertion(x, manual_x)
 

@@ -7,7 +7,7 @@ from modiphy.equations import EquationKind
 
 
 source = r"""
-    !for <names> !do
+    !for ? = <names> !do
 
     !transition-shocks
         "Shock ?1" shk_?1
@@ -25,7 +25,7 @@ source = r"""
 !end
 """
 
-m = Model.from_string(source, context = {'names': a, b, c)
+m = Model.from_string(source, context = {'names': ['a', 'b', 'c']})
 
 
 m._quantities
@@ -85,7 +85,7 @@ def test_quantities_kinds(m, q):
 
 def test_quantities_entry(m):
     x = _create_list(m, "entry")
-    manual_x = [2, 2, 2, 0, 1, 0, 1, 0, 1, 3, 3, 3]
+    manual_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     _assertion(x, manual_x)
 
 def test_dynamic_equations_human(m):
@@ -105,5 +105,5 @@ def test_dynamic_equations_kinds(m, q):
 
 def test_dynamic_equations_entry(m):
     x = _create_list(m, "entry")
-    manual_x = [0, 0, 0]
+    manual_x = [0, 1, 2]
     _assertion(x, manual_x)
