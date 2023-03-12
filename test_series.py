@@ -4,6 +4,7 @@ sys.path.append('..')
 
 import numpy as np
 from modiphy.dataman import *
+from IPython import embed
 
 x = Series(num_columns=2)
 
@@ -77,30 +78,29 @@ def variation7(t):
     y[ [t, t-10, t+10] ] = ( [123, 456, 789], -1000 )
     j = np.array([
     [456, -1000],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
     [123, -1000],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
-    [np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
+    [np.nan, np.nan],
     [789, -1000]
 ])
 
-#    _test(y[t-10>>t+10], j)
-    return y
+    _test(y[t-10>>t+10], j)
 
 def variation8(t):
     y[t>>t+2, 0] = [1000, 2000, 3000]
@@ -119,13 +119,11 @@ def variation10():
     [2, 200],
     [3, 300],
 ])
+    z[qq(2020, 2) >> qq(2020, 4)] = data
 
-    date = Dates(qq(2023, 1), qq(2023, 3))
-    s = start
-    sr = s.resolve(date)
-    e = end
-    er = e.resolve(date)
 
-    z[start>>end] = data
-
-    _test(z[qq(2023,1)>>qq(2023,3)], np.array([[1, 100], [2, 200], [3, 300]]))
+    _test(z[start>>qq(2020,4)], np.array([[1, 100], [2, 200], [3, 300]]))
+    _test(z[qq(2020, 2)>>end], np.array([[1, 100], [2, 200], [3, 300]]))
+    _test(z[start>>end], np.array([[1, 100], [2, 200], [3, 300]]))
+    _test(z[start-1>>end], np.array([[np.nan, np.nan], [1, 100], [2, 200], [3, 300]]))
+    _test(z[start>>end-1], np.array([[1, 100], [2, 200]]))
