@@ -12,20 +12,20 @@ source_string = r"""
             rho_a, ss_a
 
         !transition-equations
-            a = rho_a * a{-1} + (1 - rho_a) * ss_a;
+            a = ss_a + rho_a * (a{-1} - ss_a);
 
         !measurement-variables
             b
 
         !measurement-equations
-            b = a + 5;
+            b = 5*a + 3/rho_a;
 
 """
 
 m = Model.from_string(source_string, linear=True, flat=True)
 
 m.assign(
-    rho_a = 0.5,
+    rho_a = 0.8,
     ss_a = 1,
 );
 
@@ -37,6 +37,6 @@ aa = m.create_qid_to_name()
 bb = m.create_name_to_qid()
 
 def test(xx):
-    data_array = np.array([1, 6, 0.5, 1])
+    data_array = np.array([1, 8.75, 0.8, 1])
     if not np.all(data_array==xx):
         raise Exception('Something is wrong')

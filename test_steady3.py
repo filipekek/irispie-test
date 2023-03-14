@@ -12,7 +12,7 @@ source_string = r"""
             rho_a, ss_a
 
         !transition-equations
-            a = rho_a * a{-1} + (1 - rho_a) * ss_a;
+            a = rho_a * a{-1} + 0.5;
 
         !measurement-variables
             b
