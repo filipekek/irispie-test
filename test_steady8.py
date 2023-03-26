@@ -5,14 +5,13 @@ from modiphy.models.core import Model
 import numpy as np
 
 source_string = r"""
-    !for ? = <range(1000)> !do
+    !for ? = <range(300)> !do
 
     !transition-variables
-        a?, b?
+        a?
 
     !transition-equations
         a? = 0.8*a?{-1} + (1 - 0.8) * 0.5;
-        b? = b?{-1} + a?;
 !end
 """
 
@@ -30,16 +29,9 @@ aa = m.create_qid_to_name()
 
 def testx(xx):
     z = 0
-    for i in range(1000):
+    for i in range(300):
         f = abs(xx[i]-0.5)
         if f > z:
             z = f
     print(z)
 
-def testy(yy):
-    z = 0
-    for i in range(1000):
-        f = abs(yy[i]-0.5)
-        if f > z:
-            z = f
-    print(z)
