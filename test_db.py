@@ -4,7 +4,7 @@ sys.path.append('..')
 from irispie import *
 
 # Create a new empty "databank"
-d = db_.Databank()
+d = Databank()
 
 # Fill in a couple of entries
 d.a = 1
@@ -12,21 +12,21 @@ d.b = "xxxx"
 d.c = True
 d.ddd = [1,2,3]
 
-print(d)
-print("-"*30)
+def _test(x, y):
+    assert x == y
 
-e = d._copy()
-print(e)
-print("-"*30)
+def test_names(d):
+    e = d._copy()
+    _test(e.get_names(), ['a', 'b', 'c', 'ddd'])
 
-d._rename(["a", "c"], ["A", "C"])
-print(d)
-print("-"*30)
+    e1 = d.copy()
+    _test(e1.get_names(), ['a', 'b', 'c', 'ddd'])
 
-d._keep(["b", "ddd"])
-print(d)
-print("-"*30)
+    d._rename(["a", "c"], ["A", "C"])
+    _test(d.get_names(), ['A', 'C', 'b', 'ddd'])
 
-e._remove(["a", "ddd"])
-print(e)
-print("-"*30)
+    d._keep(["b", "ddd"])
+    _test(d.get_names(), ['b', 'ddd'])
+
+    e._remove(["a", "ddd"])
+    _test(e.get_names(), ['b', 'c'])
