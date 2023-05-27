@@ -2,7 +2,7 @@
 import sys
 sys.path.append('..')
 
-import modiphy as md
+import irispie as md
 import numpy
 
 numpy.set_printoptions(linewidth=100000)

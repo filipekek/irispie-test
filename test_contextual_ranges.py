@@ -2,7 +2,7 @@
 import sys
 sys.path.append('..')
 
-from modiphy import *
+from irispie import *
 
 import random
 

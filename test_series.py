@@ -3,12 +3,18 @@ import sys
 sys.path.append('..')
 
 import numpy as np
-from modiphy.dataman import *
+from irispie.dataman import *
 from IPython import embed
 
 x = Series(num_columns=2)
 
 y = Series(num_columns=2)
+
+a = Series(num_columns=2)
+
+b = Series(num_columns=2)
+
+c = Series(num_columns=2)
 
 t = qq(2023,1)
 
@@ -103,14 +109,14 @@ def variation7(t):
     _test(y(t-10>>t+10), j)
 
 def variation8(t):
-    y[t>>t+2, 0] = [1000, 2000, 3000]
+    a[t>>t+2, 0] = [1000, 2000, 3000]
 
-    _test(y(t>>t+2), np.array([[1000, np.nan], [2000, np.nan], [3000, np.nan]]))
+    _test(a(t>>t+2), np.array([[1000, np.nan], [2000, np.nan], [3000, np.nan]]))
 
 def variation9(t):
-    y[t>>t+2, 1] = [-1000, 2000, 3000]
+    b[t>>t+2, 1] = [-1000, 2000, 3000]
 
-    _test(y(t>>t+2), np.array([[np.nan, -1000], [np.nan, 2000], [np.nan, 3000]]))
+    _test(b(t>>t+2), np.array([[np.nan, -1000], [np.nan, 2000], [np.nan, 3000]]))
 
 def variation10():
     z = Series(num_columns=2)
@@ -128,4 +134,28 @@ def variation10():
     _test(z(start-1>>end), np.array([[np.nan, np.nan], [1, 100], [2, 200], [3, 300]]))
     _test(z(start>>end-1), np.array([[1, 100], [2, 200]]))
 
-#def variation11():
+def variation11(t):
+    data = np.array([
+        [1, 10],
+        [2, 20],
+        [3, 30],
+])
+
+    c[t>>t+2] = data
+
+    if not isinstance(c[t>>t+2], Series):
+        raise Exception('Not a series')
+
+    np.array_equal(c.data, data, equal_nan=True)
+
+if __name__ == '__main__':
+    variation1(t)
+    variation2(t)
+    variation3(t)
+    variation4(t)
+    variation5(t)
+    variation6(t)
+    variation7(t)
+    variation8(t)
+    variation9(t)
+    variation10()

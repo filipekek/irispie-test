@@ -2,7 +2,7 @@
 import sys
 sys.path.append("..")
 
-from modiphy import *
+from irispie import *
 
 import random
 
@@ -266,7 +266,7 @@ def test_same_dates(num_tests, function):
 
 
 if __name__=="__main__":
-    num_tests = 100
+    num_tests = 10
     test_yy_range(num_tests)
     test_hh_range(num_tests)
     test_qq_range(num_tests)

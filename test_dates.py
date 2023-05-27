@@ -2,7 +2,7 @@
 import sys
 sys.path.append("/home/filip")
 
-from modiphy import *
+from irispie import *
 
 import random
 

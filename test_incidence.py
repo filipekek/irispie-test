@@ -2,20 +2,20 @@
 import sys
 
 
-from modiphy.sources import (
-    Source,
+from irispie.sources import (
+    ModelSource,
 )
 
-from modiphy.equations import (
-    finalize_equations_from_humans,
+from irispie.equations import (
+    finalize_from_human,
 )
 
 
-from modiphy.quantities import (
+from irispie.quantities import (
     create_name_to_qid,
 )
 
-from modiphy.incidence import Token
+from irispie.incidence import Token
 
 s = Source.from_lists(
     transition_variables=["a", "y", "c", "i", "k", "r", "c_to_y", "i_to_y", "x"],

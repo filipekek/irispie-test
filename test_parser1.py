@@ -1,9 +1,9 @@
 import sys
 sys.path.append('..')
 
-from modiphy.models.core import Model
-from modiphy.quantities import QuantityKind
-from modiphy.equations import EquationKind
+from irispie.models.core import Model
+from irispie.quantities import QuantityKind
+from irispie.equations import EquationKind
 
 
 source = r"""
