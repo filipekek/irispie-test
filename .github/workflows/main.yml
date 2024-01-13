@@ -1,0 +1,27 @@
+name: Run Tests
+
+on:
+  workflow_dispatch:
+#  push:
+#   branches: main
+    
+
+jobs:
+  run-files:
+    if: "contains(github.event.head_commit.message, 'Test')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+          
+      - name: setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: run-test1
+        id: test1
+        run: |
+          cd irispie-test
+          pip install irispie
+          python test_incidence.py
